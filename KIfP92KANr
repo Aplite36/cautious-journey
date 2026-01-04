@@ -1,5 +1,10 @@
 -- Reuploaded from https://raw.githubusercontent.com/dawid-scripts/UI-Libs/refs/heads/main/fluxlib.txt
--- Just to change things for my own usage.
+-- Added new features for own usage.
+
+-- Removes old instance.
+if game.CoreGui:FindFirstChild("Aplite") then
+	game.CoreGui:FindFirstChild("Aplite"):Destroy()
+end
 
 local Flux = {RainbowColorValue = 0, HueSelectionPosition = 0}
 local PresetColor = Color3.fromRGB(66, 134, 255)
@@ -11,7 +16,7 @@ local Mouse = LocalPlayer:GetMouse()
 local CloseBind = Enum.KeyCode.K
 
 local FluxLib = Instance.new("ScreenGui")
-FluxLib.Name = "FluxLib"
+FluxLib.Name = "Aplite"
 FluxLib.Parent = game.CoreGui
 FluxLib.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
