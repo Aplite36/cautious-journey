@@ -2332,6 +2332,17 @@ function Flux:Window(text, bottom,mainclr,toclose)
 			Title.TextSize = 15.000
 			Title.TextTransparency = 0.300
 			Title.TextXAlignment = Enum.TextXAlignment.Left
+			Title.TextWrapped = true  -- Enable text wrapping
+			Title.TextYAlignment = Enum.TextYAlignment.Top  -- Align text to top
+			Title.AutomaticSize = Enum.AutomaticSize.Y  -- Auto-resize vertically
+			
+			-- Make Label resize with Title
+			Label.AutomaticSize = Enum.AutomaticSize.Y
+			
+			-- Add minimum height constraint
+			local MinHeight = Instance.new("UISizeConstraint")
+			MinHeight.MinSize = Vector2.new(0, 43)
+			MinHeight.Parent = Label
 			
 			Container.CanvasSize = UDim2.new(0, 0, 0, ContainerLayout.AbsoluteContentSize.Y)
 		end
