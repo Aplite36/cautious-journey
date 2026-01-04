@@ -2325,26 +2325,95 @@ function Flux:Window(text, bottom,mainclr,toclose)
 			Title.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 			Title.BackgroundTransparency = 1.000
 			Title.Position = UDim2.new(0.038480062, 0, 0, 0)
-			Title.Size = UDim2.new(0, 113, 0, 42)
+			Title.Size = UDim2.new(0.92, 0, 0, 42)  -- Changed to scale with offset, takes ~92% width
 			Title.Font = Enum.Font.Gotham
 			Title.Text = text
 			Title.TextColor3 = Color3.fromRGB(255, 255, 255)
 			Title.TextSize = 15.000
 			Title.TextTransparency = 0.300
 			Title.TextXAlignment = Enum.TextXAlignment.Left
-			Title.TextWrapped = true  -- Enable text wrapping
-			Title.TextYAlignment = Enum.TextYAlignment.Top  -- Align text to top
-			Title.AutomaticSize = Enum.AutomaticSize.Y  -- Auto-resize vertically
+			Title.TextWrapped = true
+			Title.TextYAlignment = Enum.TextYAlignment.Top
+			Title.AutomaticSize = Enum.AutomaticSize.Y
 			
-			-- Make Label resize with Title
 			Label.AutomaticSize = Enum.AutomaticSize.Y
 			
-			-- Add minimum height constraint
 			local MinHeight = Instance.new("UISizeConstraint")
 			MinHeight.MinSize = Vector2.new(0, 43)
 			MinHeight.Parent = Label
 			
 			Container.CanvasSize = UDim2.new(0, 0, 0, ContainerLayout.AbsoluteContentSize.Y)
+		end
+		function ContainerContent:StatLabel(labelText, labelColor, valueText, valueColor)
+			local StatLabelFunc = {}
+			
+			local StatLabel = Instance.new("TextButton")
+			local StatLabelCorner = Instance.new("UICorner")
+			local LabelPart = Instance.new("TextLabel")
+			local ValuePart = Instance.new("TextLabel")
+
+			StatLabel.Name = "StatLabel"
+			StatLabel.Parent = Container
+			StatLabel.BackgroundColor3 = Color3.fromRGB(64, 68, 75)
+			StatLabel.ClipsDescendants = true
+			StatLabel.Position = UDim2.new(0.370312512, 0, 0.552631557, 0)
+			StatLabel.Size = UDim2.new(0, 457, 0, 43)
+			StatLabel.AutoButtonColor = false
+			StatLabel.Font = Enum.Font.SourceSans
+			StatLabel.Text = ""
+			StatLabel.TextColor3 = Color3.fromRGB(0, 0, 0)
+			StatLabel.TextSize = 14.000
+
+			StatLabelCorner.CornerRadius = UDim.new(0, 4)
+			StatLabelCorner.Name = "StatLabelCorner"
+			StatLabelCorner.Parent = StatLabel
+
+			LabelPart.Name = "LabelPart"
+			LabelPart.Parent = StatLabel
+			LabelPart.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+			LabelPart.BackgroundTransparency = 1.000
+			LabelPart.Position = UDim2.new(0.038480062, 0, 0, 0)
+			LabelPart.Size = UDim2.new(0, 0, 0, 42)
+			LabelPart.Font = Enum.Font.Gotham
+			LabelPart.Text = labelText
+			LabelPart.TextColor3 = labelColor
+			LabelPart.TextSize = 15.000
+			LabelPart.TextTransparency = 0.300
+			LabelPart.TextXAlignment = Enum.TextXAlignment.Left
+			LabelPart.TextYAlignment = Enum.TextYAlignment.Center
+			
+			-- Calculate width of label text
+			local textService = game:GetService("TextService")
+			local labelTextSize = textService:GetTextSize(
+				labelText,
+				15,
+				Enum.Font.Gotham,
+				Vector2.new(math.huge, 42)
+			)
+			LabelPart.Size = UDim2.new(0, labelTextSize.X, 0, 42)
+
+			ValuePart.Name = "ValuePart"
+			ValuePart.Parent = StatLabel
+			ValuePart.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+			ValuePart.BackgroundTransparency = 1.000
+			ValuePart.Position = UDim2.new(0.038480062, labelTextSize.X, 0, 0)
+			ValuePart.Size = UDim2.new(0, 400, 0, 42)
+			ValuePart.Font = Enum.Font.Gotham
+			ValuePart.Text = valueText
+			ValuePart.TextColor3 = valueColor
+			ValuePart.TextSize = 15.000
+			ValuePart.TextTransparency = 0.300
+			ValuePart.TextXAlignment = Enum.TextXAlignment.Left
+			ValuePart.TextYAlignment = Enum.TextYAlignment.Center
+			
+			function StatLabelFunc:Update(newValue, newColor)
+				ValuePart.Text = newValue
+				ValuePart.TextColor3 = newColor
+			end
+			
+			Container.CanvasSize = UDim2.new(0, 0, 0, ContainerLayout.AbsoluteContentSize.Y)
+			
+			return StatLabelFunc
 		end
 		function ContainerContent:Textbox(text,desc,disapper,callback)
 			if desc == "" then
