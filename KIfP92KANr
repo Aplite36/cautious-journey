@@ -2299,10 +2299,12 @@ function Flux:Window(text, bottom,mainclr,toclose)
 			
 			Container.CanvasSize = UDim2.new(0, 0, 0, ContainerLayout.AbsoluteContentSize.Y)
 		end
+		-- FIXED Label function with proper padding
 		function ContainerContent:Label(text)
 			local Label = Instance.new("TextButton")
 			local LabelCorner = Instance.new("UICorner")
 			local Title = Instance.new("TextLabel")
+			local UIPadding = Instance.new("UIPadding")
 
 			Label.Name = "Label"
 			Label.Parent = Container
@@ -2325,7 +2327,7 @@ function Flux:Window(text, bottom,mainclr,toclose)
 			Title.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 			Title.BackgroundTransparency = 1.000
 			Title.Position = UDim2.new(0.038480062, 0, 0, 0)
-			Title.Size = UDim2.new(0.92, 0, 0, 42)  -- Changed to scale with offset, takes ~92% width
+			Title.Size = UDim2.new(0.92, 0, 1, 0)
 			Title.Font = Enum.Font.Gotham
 			Title.Text = text
 			Title.TextColor3 = Color3.fromRGB(255, 255, 255)
@@ -2335,6 +2337,11 @@ function Flux:Window(text, bottom,mainclr,toclose)
 			Title.TextWrapped = true
 			Title.TextYAlignment = Enum.TextYAlignment.Top
 			Title.AutomaticSize = Enum.AutomaticSize.Y
+			
+			-- Add padding to match StatLabel's visual centering (42px height = ~10.5px top/bottom padding for 15px font)
+			UIPadding.Parent = Title
+			UIPadding.PaddingTop = UDim.new(0, 11)
+			UIPadding.PaddingBottom = UDim.new(0, 11)
 			
 			Label.AutomaticSize = Enum.AutomaticSize.Y
 			
